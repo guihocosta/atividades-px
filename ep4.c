@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* Função para linearizar uma matriz triangular inferior */
 int* lineariza(int **mat, int n) {
     int tamanho = (n * (n + 1)) / 2;
     int* vetor = (int*)malloc(tamanho * sizeof(int));
@@ -11,7 +10,7 @@ int* lineariza(int **mat, int n) {
 
     int k = 0;
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j <= i; j++) { // j vai de 0 até i (triangular inferior)
+        for (int j = 0; j <= i; j++) {
             vetor[k] = mat[i][j];
             k++;
         }
