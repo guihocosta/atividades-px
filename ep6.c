@@ -11,13 +11,25 @@ typedef struct {
 Time* init_team(int id, char* nome, int pontos) {
     Time* t = (Time*)malloc(sizeof(Time));
     if (t == NULL) {
-        printf("Erro ao alocar memória!\n");
         return NULL;
     }
     t->id = id;
     strcpy(t->nome, nome);
     t->pontos = pontos;
     return t;
+}
+
+void write_file(FILE *arquivo, Time *t){
+    fprintf(arquivo, "%d\n%s\n%d\n", t->id, t->nome, t->pontos);
+}
+
+Time* read_file(FILE *arquivo) {
+    int id, pontos;
+    char nome[50];
+    
+    fscanf(arquivo, "%d %49[^\n] %d", &id, nome, &pontos);
+    return init_team(id, nome, pontos);
+
 }
 
 int main() {
@@ -39,28 +51,21 @@ int main() {
         free(t1);
         return 1;
     }
-    fprintf(arquivo, "%d\n%s\n%d\n", t1->id, t1->nome, t1->pontos);
+    
+    write_file(arquivo, t1);
     fclose(arquivo);
 
     free(t1);
-    t1 = NULL;
 
     arquivo = fopen("time.txt", "r");
     if (arquivo == NULL) {
         return 1;
     }
 
-    Time *t2 = (Time*)malloc(sizeof(Time));
-    if (t2 == NULL) {
-        fclose(arquivo);
-        return 1;
-    }
+    Time *t2 = read_file(arquivo);
+    if (t2 == NULL) return 1;
 
-    if (fscanf(arquivo, "%d\n %49[^\n]\n%d", &t2->id, t2->nome, &t2->pontos) == 3) {
-        printf("ID: %d\n", t2->id);
-        printf("Nome: %s\n", t2->nome);
-        printf("Pontos: %d\n", t2->pontos);
-    }
+    printf("ID: %d; Nome: %s; Pontos: %d", t2->id, t2->nome, t2->pontos);
 
     fclose(arquivo);
     free(t2);
