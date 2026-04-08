@@ -5,18 +5,19 @@ int split_text(char *text, char *part1, char *part2) {
     int i = 0;
     int j = 0;
 
-    while (text[i] != ' ' && text[i] != ' '){
+    while (text[i] != '\0' && text[i] != ' ') {
         part1[i] = text[i];
         i++;
     }
     part1[i] = '\0';
 
-    if (text[i] == '\0')
+    if (text[i] == '\0') {
         return 0;
-    
+    }
+
     i++;
 
-    while (text[i] != '\0'){
+    while (text[i] != '\0') {
         part2[j] = text[i];
         i++;
         j++;
